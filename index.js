@@ -31,7 +31,7 @@ const Contact = mongoose.model('Contact', contactSchema);
 
 app.get('/', (req, res) => {
     res.send("Hello world")
-})
+});
 
 // API route for submitting contact form
 app.post('/api/contact', async (req, res) => {
@@ -48,6 +48,16 @@ app.post('/api/contact', async (req, res) => {
         res.status(201).send({ message: 'Information saved successfully!' });
     } catch (error) {
         res.status(500).send({ error: 'Failed to save information' });
+    }
+});
+
+// New API route to get all contacts
+app.get('/api/contacts', async (req, res) => {
+    try {
+        const contacts = await Contact.find(); // Fetch all contacts
+        res.status(200).json(contacts); // Return contacts as JSON
+    } catch (error) {
+        res.status(500).send({ error: 'Failed to retrieve contacts' });
     }
 });
 
